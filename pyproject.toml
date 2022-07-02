@@ -5,7 +5,7 @@ description = "Random receipt generator"
 authors = ["Michail Melonas <michailmelonas@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.8.5"
 Flask = "^2.1.2"
 weasyprint = "^55.0"
 boto3 = "^1.24.22"
