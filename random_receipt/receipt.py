@@ -1,21 +1,29 @@
 import csv
-import pathlib
 import random
+from pathlib import Path
 
-import names
 
-
-_MIN_ITEMS = 5
-_MAX_ITEMS = 20
-_MAX_PRICE = 100000
-_MAX_QUANTITY = 5
+_MIN_ITEMS = 2
+_MAX_ITEMS = 10
+_MAX_PRICE = 30000
+_MAX_QUANTITY = 3
 _VAT_PERCENTAGE = 15
 
 _PRODUCTS = []
-with open(pathlib.Path(__file__).parent.joinpath("data/groceries.csv"), "r") as f:
+with open(Path(__file__).parent.joinpath("data/groceries.csv"), "r") as f:
     reader = csv.reader(f)
     for row in reader:
-        _PRODUCTS.append(row[1].title())
+        _PRODUCTS.append(row[0].title())
+
+_STORES = []
+with open(Path(__file__).parent.joinpath("data/stores.csv"), "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        _STORES.append({"storeName": row[0], "logoUrl": row[1]})
+
+
+def _convert_cents_to_currency(n: int) -> str:
+    return "{0:.2f}".format(n/100)
 
 
 def generate():
@@ -31,16 +39,15 @@ def generate():
 
         line_items.append({
             "description": item,
-            "price": price,
+            "price": _convert_cents_to_currency(price),
             "quantity": quantity,
-            "total": item_total
+            "total": _convert_cents_to_currency(item_total)
         })
         total += item_total
 
     return {
         "lineItems": line_items,
-        "total": total,
-        "tax": round(_VAT_PERCENTAGE / (100 + _VAT_PERCENTAGE) * total),
-        "storeName": names.get_last_name() + "'s Store",
-        "logoUrl": "https://picsum.photos/200/100"
+        "total": _convert_cents_to_currency(total),
+        "tax": _convert_cents_to_currency(round(_VAT_PERCENTAGE / (100 + _VAT_PERCENTAGE) * total)),
+        **random.sample(_STORES, 1)[0]
     }
