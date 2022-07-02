@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ storeName }}</title>
+  <style>
+    .invoice-box {
+      max-width: 400px;
+      margin: auto;
+      padding: 2px;
+      font-size: 16px;
+      line-height: 20px;
+      font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+      color: #555;
+    }
+
+    .invoice-box table {
+      width: 100%;
+      line-height: inherit;
+      text-align: left;
+    }
+
+    .invoice-box table td {
+      padding: 1px;
+      vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+      text-align: left;
+    }
+
+    .invoice-box table tr.top table td {
+      padding-bottom: 5px;
+    }
+
+    .invoice-box table tr.top table td.title {
+      font-size: 45px;
+      line-height: 45px;
+      color: #333;
+    }
+
+    .invoice-box table tr.heading td {
+      background: #eee;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+      padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td{
+      border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+      border-bottom: none;
+    }
+
+    @page {
+      size: 5in 10in;
+      margin: 0mm 0mm 0mm 0mm;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="invoice-box">
+    <table style="width: 100%;">
+      <tr>
+        <th style="text-align: center;"><img src="{{ logoUrl }}" style="max-height: 200px; max-width: 400px;"></th>
+      </tr>
+      <tr>
+        <th style="text-align: center; font-size: 20px;">{{ storeName }}</th>
+      </tr>
+      <tr>
+        <td style="text-align: center;">15 Victoria Road</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">Camps Bay, Cape Town, 1732</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">Tel: (021) 437-1287</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">VAT No.: 432142140</td>
+      </tr>
+      <tr>
+        <th style="text-align: center;">TAX INVOICE</th>
+      </tr>
+    </table>
+    <table cellpadding="0" cellspacing="0">
+      <tr class="heading">
+        <td>
+          Item
+        </td>
+        <td>
+          Price
+        </td>
+      </tr>
+
+      {% for line_item in lineItems %}
+      <tr class="item">
+        <td>
+          {{ line_item["description"] }} x {{ line_item["quantity"] }}
+        </td>
+        <td>
+          R {{ line_item["total"] }}
+        </td>
+      </tr>
+      {% endfor %}
+
+      <tr>
+        <td><i>VAT 15% (included)</i></td>
+        <td><i>R {{ tax }}</i></td>
+      </tr>
+
+      <tr class="total" style="font-weight: bold;">
+        <td>TOTAL</td>
+        <td>
+           R {{ total }}
+        </td>
+      </tr>
+    </table>
+      <br>
+      <br>
+      <table>
+      <tr>
+        <th style="text-align: center;"><img src="https://gs1go2.azureedge.net/cdn/ff/cZ3F6dcJl8sWBI28YukX7o4W2WKvpRVdZK8NNwIdAVM/1635150529/public/2021-05/gs1-128.png" style="max-height: 100px; "></th>
+      </tr>
+      </table>
+      <table style="width: 100%;">
+        <tr>
+          <td style="text-align: center;">Date: 2022-06-12 19:47</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">Last day for refund: 20/10/2023</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">Cashier: J. Davies 0013</td>
+        </tr>
+        <tr>
+          <td style="text-align: center;">Transaction: 1123842</td>
+        </tr>
+      </table>
+  </div>
+
+</body>
+</html>
