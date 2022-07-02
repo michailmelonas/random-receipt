@@ -1,1 +1,1 @@
-web: gunicorn random_receipt/app:app
+web: gunicorn random_receipt/app.py:app
