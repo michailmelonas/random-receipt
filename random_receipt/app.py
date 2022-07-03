@@ -24,17 +24,18 @@ def generate_random_receipt():
         aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
     )
     s3_client = session.client("s3")
-    file_name = str(uuid.uuid4()) + ".pdf"
+    filename = str(uuid.uuid4()) + ".pdf"
     s3_client.upload_fileobj(
-        io.BytesIO(receipt_pdf), os.getenv("S3_BUCKET"), file_name
+        io.BytesIO(receipt_pdf), os.getenv("S3_BUCKET"), filename
     )
     presigned_url = s3_client.generate_presigned_url(
         "get_object",
-        Params={"Bucket": os.getenv("S3_BUCKET"), "Key": file_name},
+        Params={"Bucket": os.getenv("S3_BUCKET"), "Key": filename},
         ExpiresIn=100000
     )
 
     receipt["imageUrl"] = presigned_url
+    receipt["imageFilename"] = filename
     return jsonify(receipt)
 
 
