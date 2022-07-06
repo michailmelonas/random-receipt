@@ -26,7 +26,7 @@ def _convert_cents_to_currency(n: int) -> str:
     return "{0:.2f}".format(n/100)
 
 
-def generate():
+def generate() -> dict:
     item_count = random.randint(_MIN_ITEMS, _MAX_ITEMS)
     items = random.sample(_PRODUCTS, item_count)
 
