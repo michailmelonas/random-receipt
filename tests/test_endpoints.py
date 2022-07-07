@@ -29,5 +29,9 @@ def test_random_receipt_endpoint(app_client):
 
 def test_random_receipt_endpoint_uploads_pdf_to_s3(app_client, s3_client):
     response = app_client.get("/api/receipt")
-
     s3_client.head_object(Bucket=os.getenv("S3_BUCKET"), Key=response.json["imageFilename"])
+
+
+def test_random_receipt_endpoint_contains_image_url(app_client):
+    response = app_client.get("/api/receipt")
+    assert "imageUrl" in response.json.keys()

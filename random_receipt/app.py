@@ -24,9 +24,15 @@ def generate_random_receipt():
     )
     s3_client = session.client("s3")
     filename = str(uuid.uuid4()) + ".jpeg"
-    s3_client.upload_fileobj(byte_array, os.getenv("S3_BUCKET"), filename)
+    s3_client.upload_fileobj(
+        byte_array,
+        os.getenv("S3_BUCKET"),
+        filename,
+        ExtraArgs={"ContentType": "image/jpeg"},
+    )
 
     receipt["imageFilename"] = filename
+    receipt["imageUrl"] =  f"https://{os.getenv('S3_BUCKET')}.s3.amazonaws.com/{filename}"
     return jsonify(receipt)
 
 
