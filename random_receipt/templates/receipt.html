@@ -26,7 +26,7 @@
     }
 
     .invoice-box table tr td:nth-child(2) {
-      text-align: left;
+      text-align: right;
     }
 
     .invoice-box table tr.top table td {
@@ -40,7 +40,7 @@
     }
 
     .invoice-box table tr.heading td {
-      background: #eee;
+      /* background: #eee; */
       border-bottom: 1px solid #ddd;
       font-weight: bold;
     }
@@ -63,7 +63,7 @@
 
     @page {
       size: 5in 10in;
-      margin: 0mm 0mm 0mm 0mm;
+      margin: 1mm 1mm 1mm 1mm;
     }
   </style>
 </head>
@@ -72,16 +72,13 @@
   <div class="invoice-box">
     <table class="store-information">
       <tr>
-        <th><img src="{{ logoUrl }}" style="max-height: 200px; max-width: 400px;"></th>
+        <th><img src="{{ logoUrl }}" style="max-height: 400px; max-width: 400px;"></th>
       </tr>
       <tr>
         <th style="font-size: 20px;">{{ storeName }}</th>
       </tr>
       <tr>
-        <td>15 Victoria Road</td>
-      </tr>
-      <tr>
-        <td>Camps Bay, Cape Town, 1732</td>
+        <td>15 Victoria Road, Cape Town</td>
       </tr>
       <tr>
         <td>Tel: (021) 437-1287</td>
@@ -96,16 +93,15 @@
     <table cellpadding="0" cellspacing="0">
       <tr class="heading">
         <td>
-          Item
         </td>
         <td>
-          Price
         </td>
       </tr>
 
       {% for line_item in lineItems %}
       <tr class="item">
         <td>
+          <img src="{{ line_item['logo'] }}" style="max-height: 30px; max-width: 30px;">
           {{ line_item["description"] }} x {{ line_item["quantity"] }}
         </td>
         <td>

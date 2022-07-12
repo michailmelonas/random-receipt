@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template
 import boto3
 
 from random_receipt.receipt import generate
-from random_receipt.utils import convert_html_to_jpeg_byte_array
+from random_receipt.utils import convert_html_to_pdf_byte_array
 
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ app = Flask(__name__)
 def generate_random_receipt():
     receipt = generate()
     receipt_html = render_template("receipt.html", **receipt)
-    byte_array = convert_html_to_jpeg_byte_array(receipt_html)
+    byte_array = convert_html_to_pdf_byte_array(receipt_html)
 
     # upload to s3
     session = boto3.Session(
@@ -23,12 +23,12 @@ def generate_random_receipt():
         aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
     )
     s3_client = session.client("s3")
-    filename = str(uuid.uuid4()) + ".jpeg"
+    filename = str(uuid.uuid4()) + ".pdf"
     s3_client.upload_fileobj(
         byte_array,
         os.getenv("S3_BUCKET"),
         filename,
-        ExtraArgs={"ContentType": "image/jpeg"},
+        ExtraArgs={"ContentType": "application/pdf"},
     )
 
     receipt["imageFilename"] = filename

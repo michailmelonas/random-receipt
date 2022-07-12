@@ -21,6 +21,12 @@ with open(Path(__file__).parent.joinpath("data/stores.csv"), "r") as f:
     for row in reader:
         _STORES.append({"storeName": row[0], "logoUrl": row[1]})
 
+_GROCERY_LOGOS = []
+with open(Path(__file__).parent.joinpath("data/grocery_logos.csv"), "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        _GROCERY_LOGOS.append(row[0])
+
 
 def _convert_cents_to_currency(n: int) -> str:
     return "{0:.2f}".format(n/100)
@@ -41,6 +47,7 @@ def generate() -> dict:
             "description": item,
             "price": _convert_cents_to_currency(price),
             "quantity": quantity,
+            "logo": random.sample(_GROCERY_LOGOS, 1)[0],
             "total": _convert_cents_to_currency(item_total)
         })
         total += item_total
