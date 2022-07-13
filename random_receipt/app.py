@@ -1,3 +1,4 @@
+import datetime
 import os
 import uuid
 
@@ -31,8 +32,9 @@ def generate_random_receipt():
         ExtraArgs={"ContentType": "application/pdf"},
     )
 
-    receipt["imageFilename"] = filename
-    receipt["imageUrl"] =  f"https://{os.getenv('S3_BUCKET')}.s3.amazonaws.com/{filename}"
+    receipt["pdfFilename"] = filename
+    receipt["pdfUrl"] =  f"https://{os.getenv('S3_BUCKET')}.s3.amazonaws.com/{filename}"
+    receipt["datestamp"] = datetime.datetime.now().strftime("%d-%m-%y %H:%M")
     return jsonify(receipt)
 
 
