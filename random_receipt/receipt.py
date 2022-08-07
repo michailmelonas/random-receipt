@@ -1,6 +1,7 @@
+from datetime import datetime
+from pathlib import Path
 import csv
 import random
-from pathlib import Path
 
 
 _MIN_ITEMS = 2
@@ -56,5 +57,6 @@ def generate() -> dict:
         "lineItems": line_items,
         "total": _convert_cents_to_currency(total),
         "tax": _convert_cents_to_currency(round(_VAT_PERCENTAGE / (100 + _VAT_PERCENTAGE) * total)),
+        "datestamp": datetime.now().strftime("%d-%m-%y %H:%M"),
         **random.sample(_STORES, 1)[0]
     }
